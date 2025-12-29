@@ -90,7 +90,7 @@ out/rq1/
 ## 5. RQ2: Feature Construction
 
 ```bash
-python run_rq2.py --features out/rq2/rq2_features.csv --out_dir out/rq2
+python build_rq2_features.py --config config.yaml
 ```
 
 Output:
@@ -122,19 +122,25 @@ out/rq2/
 
 ## 7. Qualitative Analysis (Table 1)
 
-Scripts:
-- make_qual_sample.py
-- make_qual_sample_from_features.py
-- make_rq2_qual_ready.py
+The qualitative analysis in Table 1 is based on a reproducible sampling step
+followed by manual coding.
 
-Codebook:
+**Scripts (sampling and preparation only):**
+- `make_qual_sample.py`: draws a reproducible qualitative sample.
+- `make_qual_sample_from_features.py`: samples PRs based on RQ2 feature values.
+- `make_rq2_qual_ready.py`: prepares the analysis-ready CSV for manual coding.
+
+**Codebook:**
+
 ```
 codebook_rq2_qualitative.md
 ```
 
 Generated qualitative sample:
 ```
-qual_sample.zip
+rq2_qual_ready.csv
+coding_sheet_60Classified.csv
+
 ```
 
 ---
