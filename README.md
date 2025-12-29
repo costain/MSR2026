@@ -103,7 +103,10 @@ out/rq2/rq2_features.csv
 ## 6. RQ2: Logistic Regression Models
 
 ```bash
-python run_rq2.py --config config.yaml
+python run_rq2.py \
+  --features out/rq2/rq2_features.csv \
+  --out_dir out/rq2
+
 ```
 
 Outputs:
