@@ -29,25 +29,24 @@ Rather than treating agent contributions purely as code artifacts, we analyze th
 - Coordination stability
 - Reviewer engagement dynamics
 
-<!-- Paper reference: :contentReference[oaicite:1]{index=1} -->
-
 ---
 
 ## 🔬 Research Questions
 
-### RQ1
+### RQ1  
 What proportions of agent-authored PRs are merged, closed without merging, or remain open — and how long do they take to reach a decision?
 
-### RQ2
+### RQ2  
 Which review-time collaboration signals are associated with successful integration?
 
 Signals include:
-- Iteration intensity
-- Change magnitude (ΔLOC, files)
-- Force pushes
-- Reviewer presence
-- Time to first review
-- Testing behavior
+
+- Iteration intensity  
+- Change magnitude (ΔLOC, files)  
+- Force pushes  
+- Reviewer presence  
+- Time to first review  
+- Testing behavior  
 
 ---
 
@@ -64,6 +63,20 @@ All models are associational, not causal.
 
 ---
 
+## 📊 Data Source (AIDev v3)
+
+This study uses **AIDev v3**, a curated dataset of agent-authored pull requests.
+
+📦 Dataset DOI:  
+https://doi.org/10.5281/zenodo.16919272  
+
+Authors: Hao Li, Haoxiang Zhang, Ahmed E. Hassan  
+
+The dataset is **not redistributed** with this repository.  
+Please download AIDev v3 from the official Zenodo record and place the required Parquet files under the `AIDev/` directory.
+
+---
+
 ## ⚙️ Reproducibility Instructions
 
 ### Requirements
@@ -76,9 +89,13 @@ All models are associational, not causal.
 - statsmodels
 - matplotlib
 
-### Setup
+---
+
+### Environment Setup
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate        # macOS/Linux
+# .venv\Scripts\activate         # Windows
+
 pip install -r requirements.txt
