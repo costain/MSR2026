@@ -1,188 +1,84 @@
-# Replication Package  
-**When AI Teammates Meet Code Review**  
-MSR 2026 (Anonymous Submission)
+# When AI Teammates Meet Code Review  
+## Collaboration Signals Shaping the Integration of Agent-Authored Pull Requests  
 
-This repository contains all code and analysis pipelines required to reproduce the results reported in the paper. The artifact supports:
+[![Conference](https://img.shields.io/badge/Conference-MSR%202026-blue)]
+[![Status](https://img.shields.io/badge/Status-Accepted-yellow)]
 
-- **RQ1**: Integration outcomes and decision latency  
-- **RQ2**: Collaboration signals and logistic regression models  
-- **Qualitative analysis** underlying Table 1  
+📄 **Accepted at:**  
+23rd International Conference on Mining Software Repositories (MSR 2026)  
+Rio de Janeiro, Brazil  
 
-All analyses are executed using Python and DuckDB over the AIDev dataset.  
-No external SQL scripts are required; all queries are embedded directly in the Python code.
+**Status:** Accepted, to appear.
+
+**Authors:**  
+Costain Nachuma (Idaho State University)  
+Minhaz F. Zibran (Idaho State University)
 
 ---
 
-## 1. Environment Setup
+## 🧠 Research Context
+
+Autonomous coding agents are increasingly submitting pull requests on GitHub.  
+This study investigates how agent-authored pull requests integrate into human-driven review workflows.
+
+Rather than treating agent contributions purely as code artifacts, we analyze their integration as a **socio-technical process**, examining:
+
+- Integration outcomes (merge vs. non-merge)
+- Decision latency
+- Review-time collaboration signals
+- Coordination stability
+- Reviewer engagement dynamics
+
+Paper reference: :contentReference[oaicite:1]{index=1}
+
+---
+
+## 🔬 Research Questions
+
+### RQ1
+What proportions of agent-authored PRs are merged, closed without merging, or remain open — and how long do they take to reach a decision?
+
+### RQ2
+Which review-time collaboration signals are associated with successful integration?
+
+Signals include:
+- Iteration intensity
+- Change magnitude (ΔLOC, files)
+- Force pushes
+- Reviewer presence
+- Time to first review
+- Testing behavior
+
+---
+
+## 🏗 Methodology Overview
+
+- Dataset: **AIDev v3**
+- 33,596 agent-authored PRs
+- 2,807 repositories
+- Logistic regression with repository-clustered standard errors
+- Qualitative coding of 60 PRs
+- DuckDB-based analytical pipeline
+
+All models are associational, not causal.
+
+---
+
+## ⚙️ Reproducibility Instructions
 
 ### Requirements
-- Python **3.10+**
-- DuckDB **>= 0.10**
-- pandas, numpy
+
+- Python 3.10+
+- DuckDB >= 0.10
+- pandas
+- numpy
 - pyarrow
 - statsmodels
 - matplotlib
 
-### Install dependencies
-We recommend using a virtual environment:
+### Setup
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-```
-
----
-
-## 2. Dataset Setup (AIDev v3)
-
-This artifact expects **AIDev v3** Parquet files to be placed in a directory named `AIDev/`.
-
-
-### Required files
-```
-AIDev/
-  pull_request.parquet
-  pr_task_type.parquet
-  pr_commits.parquet
-  pr_commit_details.parquet
-  pr_reviews.parquet
-  pr_timeline.parquet
-  repository.parquet
-  user.parquet
-```
-
-
-> **Note:** The AIDev dataset is not redistributed with this artifact. Please download
-> **AIDev v3** from its official Zenodo record  
-> https://zenodo.org/records/16919272 (DOI: 10.5281/zenodo.16919272), released on
-> November 5, 2025, and place the Parquet files as shown above.
-
----
-
-## 3. Configuration
-
-All scripts read configuration from `config.yaml`.
-
-Example:
-```yaml
-data_dir: "AIDev"
-db_path: "aid_dev.duckdb"
-```
-
-Update `data_dir` if your dataset is stored elsewhere.
-
----
-
-## 4. RQ1: Integration Outcomes and Decision Latency
-
-```bash
-python run_rq1.py --config config.yaml
-```
-
-Outputs:
-```
-out/rq1/
-```
-
----
-
-## 5. RQ2: Feature Construction
-
-```bash
-python build_rq2_features.py --config config.yaml
-```
-
-Output:
-```
-out/rq2/rq2_features.csv
-```
-
----
-
-## 6. RQ2: Logistic Regression Models
-
-```bash
-python run_rq2.py \
-  --features out/rq2/rq2_features.csv \
-  --out_dir out/rq2
-
-```
-
-Outputs:
-```
-out/rq2/
-  rq2_logit_logcommits_cluster.csv
-  rq2_logit_bucket_cluster.csv
-  rq2_modelA_summary.txt
-  rq2_modelB_summary.txt
-```
-
----
-
-## 7. Qualitative Analysis (Table 1)
-
-The qualitative analysis in Table 1 is based on a reproducible sampling step
-followed by manual coding.
-
-**Scripts (sampling and preparation only):**
-- `make_qual_sample.py`: draws a reproducible qualitative sample.
-- `make_qual_sample_from_features.py`: samples PRs based on RQ2 feature values.
-- `make_rq2_qual_ready.py`: prepares the analysis-ready CSV for manual coding.
-
-**Codebook:**
-
-```
-codebook_rq2_qualitative.md
-```
-
-Generated qualitative sample:
-```
-rq2_qual_ready.csv
-coding_sheet_60Classified.csv
-
-```
-
----
-
-## 8. Additional Statistics (Optional)
-
-```bash
-python run_stats.py --config config.yaml
-```
-
----
-
-## 9. Figures
-
-Figures are generated automatically and saved under:
-```
-out/rq1/
-out/rq2/
-```
-
----
-
-## 10. Reproducibility Notes
-
-- Analyses are deterministic given the same input data.
-- Random seeds are fixed.
-- Results are associational, not causal.
-- Post-merge signals (e.g., reverts) are intentionally excluded.
-
----
-
-## 11. Artifact Scope
-
-This artifact supports:
-- Reproduction of all quantitative results
-- Regeneration of all tables and figures
-- Inspection of qualitative mechanisms
-
-The AIDev dataset is not redistributed.
-
----
-
-## 12. Contact
-
-Anonymous for MSR 2026 review.
